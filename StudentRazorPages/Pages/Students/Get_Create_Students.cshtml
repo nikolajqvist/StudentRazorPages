@@ -1,0 +1,81 @@
+﻿@page
+@model Get_Create_StudentsModel
+@using StudentRazorPages.Models
+@{
+    ViewData["Title"] = "Welcome to the students of Zealand";
+}
+<h1 class="text-center" style="color:green">@ViewData["Title"]</h1>
+<h4 style="color:blue">Create new Student</h4>
+<form method="post" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group" style="width:25%">
+        <label asp-for="@Model.student.Id" class="col-sm-2 contorl-label"></label>
+        <div class="col-sm-.10">
+            <input asp-for="@Model.student.Id" type="text" class="form-control" />
+            <span asp-validation-for="@Model.student.Id" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group" style="width:25%">
+        <label asp-for="@Model.student.Name" class="col-sm-2 contorl-label"></label>
+        <div class="col-sm-.10">
+            <input asp-for="@Model.student.Name" type=" text" class="form-control" />
+            <span asp-validation-for="@Model.student.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group" style="width:25%">
+        <label asp-for="@Model.student.ImagePath" class="col-sm-2 contorl-label"></label>
+        <div class="col-sm-.10">
+            <input asp-for="@Model.student.ImagePath" type="text" class="form-control" />
+            <span asp-validation-for="@Model.student.ImagePath" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group" style="width:25%">
+        <label asp-for="@Model.student.Section" class="col-sm-2 contorl-label"></label>
+        <div class="col-sm-.10">
+            <Select asp-for="@Model.student.Section"
+                    asp-items="Html.GetEnumSelectList<Section>()" class="form-control"></Select>
+            <span asp-validation-for="@Model.student.Section" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 contorl-label"></label>
+        <div class="col-sm-.10">
+            <button type="submit" class="border-light">Add student!</button>
+        </div>
+    </div>
+</form>
+<br />
+<br />
+<p style="color:blue">List of Students</p>
+<div>
+    <form method="get">
+        <p>
+            Search:
+            <input type="text" asp-for="Criteria" />
+            <input type="submit" value="Filter" />
+        </p>
+        @{
+            foreach (var student in Model.students)
+            {
+
+                var imagePath = "/Images/" + student.Value.ImagePath;
+                <div class="Card m-3" style="min-width:16rm; max width:20%;">
+                    <div class="card-header">
+                        <p>Id: @student.Value.Id</p>
+                        <p>Name: @student.Value.Name</p>
+                        <p>Section: @student.Value.Section</p>
+
+
+                        <img class="card-img-top imageThumbnail" height="200" src="@imagePath" />
+                    </div>
+                    <div class="card-footer text-center">
+                        <a asp-page="/Students/EditStudent" asp-route-id="@student.Value.Id" class="btn btn-primary m-1">Edit Student</a>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a asp-page="/Students/DeleteStudent" asp-route-id="@student.Value.Id" class="btn btn-primary m-1">Delete Student</a>
+                    </div>
+                </div>
+            }
+        }
+    </form>
+</div>
